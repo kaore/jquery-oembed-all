@@ -92,9 +92,12 @@
     
     function success(oembedData,externalUrl,container){
       $('#jqoembeddata').data(externalUrl,oembedData.code);
-      settings.beforeEmbed.call(container, oembedData);
-      settings.onEmbed.call(container, oembedData);
-      settings.afterEmbed.call(container, oembedData);
+
+      // in case it is decided in the beforeEmbed that the embed should not proceed
+      if (settings.beforeEmbed.call(container, oembedData) != false){
+        settings.onEmbed.call(container, oembedData);
+        settings.afterEmbed.call(container, oembedData);
+      }
     }
 
     function embedCode(container, externalUrl, embedProvider) {
